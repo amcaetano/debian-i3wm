@@ -1,0 +1,5 @@
+#-------------- Diretorio para armazenar icones baixados --------------#
+
+Depois e baixar o icone desejado e descompacta-lo os arquivos devem ser copiados para o diretorio especificado abaixo:
+
+/usr/share/icons

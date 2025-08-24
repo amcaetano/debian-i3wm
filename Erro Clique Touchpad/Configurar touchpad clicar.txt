@@ -1,0 +1,13 @@
+#-------------------------------- CONFIGURAR TOUCHPAD PARA CLICAR -------------------------------#
+
+#1 PASSO: Instalar o xinput => apt update e apt install xinput
+
+#2 abrir o xinput e identificar o nome correto do seu dispositivo touchpad => xinput
+
+#3 Listar os recursos do dispositivo touchpad - OBS: colocar o nome entre aspas simples => xinput list-props '<nome_dispositivo_touchpad>'  
+
+#4 procurar pelo recurso correto => tem que ser este nome libinput Tapping Enabled
+
+#5 Criar um arquivo com o nome .xsessionrc e salvar dentro dele o comando a seguir => xinput set-prop '<nome_dispositivo_touchpad>' 'libinput Tapping Enabled' 1  
+
+#6 Reiniciar o sistema e utilizar o recurso configurado.

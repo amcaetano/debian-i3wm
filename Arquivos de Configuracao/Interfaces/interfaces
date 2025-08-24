@@ -1,0 +1,38 @@
+#------------------ ARQUIVO DE CONFIGURAÇÃO DE INTERFACES DE REDE CABEADA E WI-FI ----------------#
+
+source /etc/network/interfaces.d/*
+
+#-------------------------- The loopback network interface -------------------------#
+auto lo
+iface lo inet loopback
+
+#---------------- Configuração de endereço ip dinâmico (DHCP) - Rede cabeada casa ----------------#
+
+ #allow-hotplug enp2s0
+ #iface enp2s0 inet dhcp
+	
+#----------------- Configuração de endereço ip estático - Rede cabeada casa ------------------#
+
+#allow-hotplug enp2s0 
+ # iface enp2s0 inet static
+ # address 192.168.5.8 
+ # broadcast 192.168.1.255
+ # netmask 255.255.255.0
+ # gateway 192.168.5.1
+ # dns-nameservers 8.8.8.8 8.8.4.4
+
+
+
+#---------------------- Configuração de endereço ip estático - Rede wifi casa -----------------#
+
+allow-hotplug wlp3s0 
+  iface wlp3s0 inet static
+  address 192.168.5.7 
+  broadcast 192.168.5.255
+  netmask 255.255.255.0
+  gateway 192.168.5.1
+  dns-nameservers 8.8.8.8 8.8.4.4
+  wpa-ssid rede
+  wpa-psk  admin
+
+

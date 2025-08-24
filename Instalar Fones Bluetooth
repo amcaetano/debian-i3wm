@@ -1,0 +1,16 @@
+===================== PROCEDIMENTO PARA INSTALAÇÃO DE FONES DE OUVIDO BLUETOOTH ========================================
+
+
+1. sudo apt update
+
+2. sudo apt install pavucontrol
+
+3. sudo apt install libspa-0.2-bluetooth
+
+4. systemctl --user daemon-reexec
+
+5. systemctl --user restart wireplumber pipewire pipewire-pulse
+
+6. Desconectar e reconectar fones bluetooth
+
+7. Verificar se os fones bluetooth ja aparecem no pavucontrol

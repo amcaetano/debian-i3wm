@@ -1,0 +1,10 @@
+#---------------  DICAS PARA CONFIGURACAO GRUB E LIGHTDM  ----------#
+
+GRUB  ==> Para mudar o plano de fundo do bootloader grub é necessário copiar a imagem desejada no diretorio /etc/alternatives/desktop-theme/grub com o nome grub-16x9.png  e excluir todas as fotos armazenadas neste diretório deixando apenas o script grub_background.sh
+
+OBS: Se não resolver exclua as imagens armazenadas no diretorio /usr/share/images/desktop-base/
+
+
+LIGHTDM ==> Para personalizar o gerenciador de login lightdm basta copiar a imagem desejada para o diretorio /usr/share/images/desktop-base
+
+OBS: Se desejar que a tela fique completamente preta é só remover todos os arquivos de imagens que a cor que será adotada automaticamente pelo sistema será o preto.
