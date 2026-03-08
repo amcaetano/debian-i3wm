@@ -1,0 +1,16 @@
+*************** Arquivo com dados necessarios para caminhos e configuracoes basicas do conjunto de fontes do sistema i3wm ***************
+*****************************************************************************************************************************************
+
+# Caminho para hospedagem das fontes a serem usadas no sistema operacional e nos aplicativos instalados.
+
+/usr/share/fonts/truetype
+
+
+
+
+# Caminho do arquivo de configuracao das fontes dos aplicativos instalados no sistema operacional e que sao baseados no gtk 3.0
+
+~/.config/gtk-3.0/settings.ini
+
+
+
