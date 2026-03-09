@@ -1,0 +1,65 @@
+#--------------------------------- MUDAR O DIRETORIO /HOME PARA OUTRA PARTIÇÃO -------------------------------#
+
+#1 PASSO: => Abrir o gparted em um pendrive bootavel com um sistema live para acessar as partições do sistema, visto que todas as partições precisam estar desmontadas para que possa ser feito o procedimento.
+
+=> acessar o gparted e depois redimensionar a partição usada pelo / para depois criar uma nova partição onde será montado o diretorio /home.
+
+
+#2 PASSO: Verificar se os discos e partiçoes estão desmontados e identificar o "UUID" do disco onde será montado o novo "/home"
+
+=> lsblk
+=> blkid
+
+
+#3 PASSO: Copiar o UUID desejado e colar no arquivo de configuração /etc/fstab para criar um ponto de montagem temporário
+
+=> OBS: Linha a ser copiada no fstab "UUID=<uuid_disco> /media/home ext4 nodev,nosuid 0 2"
+=> mkdir /media/home
+=> vim /etc/fstab
+=> sudo mount -a
+
+
+#4 PASSO: Copiar todos os diretórios, arquivos e permissões do "/home" atual para o novo "/home"
+
+=> sudo rsync -aAXHvS --info=progress2 /home/. /media/home/.
+
+
+#5 PASSO: Renomear o diretório original "/home"
+
+=> cd /
+=> sudo mv /home /home_backup
+=> sudo mkdir /home
+
+#6 PASSO: Configurar a montagem do "/home" definitivamente no /etc/fstab 
+
+=> OBS: Editar a linha copiada anteriormente, removendo o "media" para que o "/home" seja montada definitivamente "UUID_dispositivo /home ext4 nodev,nosuid 0 2"
+=> vim /etc/fstab
+=> sudo mount -a
+
+#7 PASSO: Reiniciar o sistem e verificar se a "/home" montou corretamente e todos os arquivos estão íntegros e não corrompidos e se tudo deu certo, a "/home_backup" já pode ser removida.
+
+=> cd /
+=> rm -rf /home_backup
+
+
+0- AUTOR:
+
+Antonio Marcos de Paula Caetano
+
+0- NOTAS:
+
+Após algum tempo utilizando o sistema linux e resolvendo alguns problemas que surgiram em meio a esta experiência o autor resolveu escrever este documento para fins de consulta pessoal e resolução de forma integral e mais rápidamente dos mesmos problemas relatados nesta documentação.
+
+                                                                     
+0- HISTÓRICO:
+
+30 de Maio de 2024 - Antonio Caetano iniciou o desenvolvimento deste documento.
+
+Última atualização: 30 de maio de 2024.
+
+0- LICENÇA:
+
+Gnu/Gpl
+
+
+

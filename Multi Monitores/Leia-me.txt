@@ -1,0 +1,3 @@
+AUTOMATIZAR RECONHECIMENTO DE MONITOR EXTERNO EM SISTEMA DEBIAN COM I3WM
+
+=>> Para automatizar o processo de reconhecimento de monitor externo no debian linux, é necessário usar o shell script com o comanando necessário para criar o acesso ao monitor e configurar a execução automática desse script no arqquivo de configuração do i3wm.

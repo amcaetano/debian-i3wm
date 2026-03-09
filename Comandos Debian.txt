@@ -1,0 +1,186 @@
+#---------------------------- COMANDOS TERMINAL DEBIAN -------------------------#
+
+1- SISTEMA
+
+  Mudar nome maquina => hostnamectl set-hostname novo-nome-host
+  OBS: AO MUDAR O NOME DO HOST NAO ESQUECER DE EDITAR O ARQUIVO /etc/hosts E TROCAR O NOME ANTIGO PELO NOVO NOME. 
+  Informações Usuário => id
+  Informações Grupo => gid
+  verificar Informações discos e partições => df -hT ou fdisk -l ou lsblk
+  Verificar ID das partições => blkid
+  Verificar memória ram e swap => free -h
+  Verificar usuário logado => whoami
+  Logar no terminal como usuário root => su root
+  Logar no terminal como outro usuário => su nome-usuário
+  Dar permissão de super usuário para determinado usuario => usermod -aG sudo "nomeusuario"
+  Sair do modo root ou sair do emulador de terminal => exit
+  Verificar Informações do sistema e do kernel => uname -a
+  Verficar Data Instalação sistema operacional através da data de criação do fstab (tabela do sistema de arquivos) => ls -l /etc/fstab
+  Atualizar lista de repositórios => apt update
+  Atualizar Pacotes do sistema => apt upgrade
+  Instalar pacotes .deb => sudo apt install ./nome-pacote
+  Instalar navegador para terminal => sudo apt install lynx
+  Resolver Dependencias pacotes .deb => sudo apt -f install
+  Remover pacotes instalados no sistema => apt remove nome-pacote
+  Resolver problema com patch comando dpkg -i => export PATH=$PATH:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+  Instalar pacotes direto do repositório especificado sem usar o navegador => wget "http:/debian.org/caminho/pacote.deb"
+  Suporte a pacotes Snap => apt install snapd
+  Verificar processador, memória ram, memória swap e processos ativos no sistema => htop
+  Ativar calculadora => bc -l
+  Sair calculadora => ctrl+d
+  Calculos diretos usando o comando bc -l => echo "1+1" | bc-l
+  Acessar calendário do sistema => cal
+  Acessar calendario atual, anterior e posterior => cal -3
+  Acessar calendário completo e navegar com teclas direcionais => cal -y | less
+  Acessar calendário ano posterior completo e navegar com teclas direcionais => EXEMPLO ANO 2022 => cal -y 2022 | less
+  Exibir descrição básica sobre uma ferramenta ou comando => man -f comando
+  Listar todos os processos am andamento no sistema e informa seu respectivo PID => ps aux
+  Listar um processo especifico geralmente se o administrador souber o nome exato => ps -ef | grep nome-processo
+  Matar um processo => kill -9 pid-processo 
+  listar metadados de rede do usuário atual => w
+  Últimos usuários logados na máquina => last
+  Listar todos os usuários que logaram na máquina e o horário do último usuário que acessou => lastlog
+  Copiar arquivos => cp nome-arquivo /diretorio-destino
+  Salvar saida de comando em arquivo .txt => 'comando > nomedoarquivo.txt'
+  Adicionar Usuário => sudo adduser nome-usuario
+  Excluir Usuário => sudo deluser nome-usuario
+  Pesquisar arquivos e diretórios no sistema => find /home -name "nome-arquivo-diretorio"
+  Desabilitar gerenciador de login antigo => systemctl disable antigo_gerenciador_login
+  Habilitar gerenciador de login novo => systemctl enable novo_gerenciador_login 
+
+2- COMPACTAR ARQUIVOS:
+
+  Agrupamento formato .tar.gz => tar -czvf arquivo.tar.gz arquivo-original
+  Visualizar conteúdo formato .tar.gz => tar -tvf arquivo.tar.gz
+  Desagrupar formato.tar.gz .tar.gz => tar -xzvf arquivo.tar.gz
+
+  Compactar formato .zip => zip arquivo arquivo-original
+  Visualizar formato zip => zipinfo arquivo.zip
+  Descompactar formato zip => unzip arquivo.zip
+  
+  Compactar formato .tar.xz => tar -cJvf arquivo.tar.xz arquivo-original    
+  Visualizar conteúdo formato .tar.xz => tar -tvf arquivo.tar.xz
+  Descompactar formato.tar.xz => tar -xJvf arquivo.tar.xz
+
+3- PERMISSÕES DE ACESSO:
+   Configurações de permissões de acesso => chmod:
+      Usuário Dono(Coluna 1) => Grupo Usuario Dono(Coluna 2) => Outros Usuários(Coluna 3)
+      Octal: 4 Leitura => 2 Escrita => 1 Execução => 0 Sem permissões
+      Textual: r Leitura => w Escrita => x Execução
+      Exemplo: chmod 700 arquivo.txt <Somente o usuário dono tera acesso ao arquivo "arquivo.txt">
+  Adicionar usuário em grupo ou mudar de grupo => usermod -aG nome-grupo nome-usuario
+     3.1 Mudar proprietário do arquivo => sudo chown novo_proprietario nome_arquivo
+     3.2 Mudar proprietario e grupo do arquivo => sudo chown novo_proprietario:novo_grupo nome_arquivo
+     3.3 Mudar proprietário do diretório recursivamente(pastas e arquivos contidos) sudo chown -R nome_proprietário:nome_grupo nome_diretório
+  
+
+
+4- ACESSO REMOTO SSH:
+
+  Instalar pacote Cliente => apt install openssh-client
+  Instalar pacote servidor => apt install openssh-server
+  Iniciar serviço ssh => 'sudo service ssh start',  'sudo /etc/init.d/ssh start', 'sudo systemctl start ssh' ou 'sudo start ssh'
+  Parar serviço ssh => 'sudo service ssh stop', 'sudo /etc/init.d/ssh stop', 'sudo systemctl stop ssh' ou 'sudo stop ssh'
+  Reiniciar serviço ssh => 'sudo service ssh restart', 'sudo /etc/init.d/ssh restart', 'sudo systemctl restart ssh' ou 'sudo restart ssh'
+  Ver status do serviço ssh => 'sudo service ssh status', 'sudo /etc/init.d/ssh status', 'sudo systemctl status ssh' ou 'sudo status ssh'
+  Acessar servidor => ssh nome-usuario-servidor@ip-servidor
+  Editar arquivo sshd_config para mudar a porta de 22 para um número maior por medidas de segurança => vim /etc/ssh/sshd_config
+  Criar par chaves publica e privada => ssh-keygen -t rsa -b 4096 -C "comentario_fim_chave_facilitar_identificacao" > OBS: o sistema pergunta o local da para salvar chave de preferência use /home/usuario/.ssh/nome_escolhido_chave_rsa
+  Copiar chave publica para servidor => ssh-copy-id -i /home/usuario/.ssh/nome_chave_rsa usuario@ip-servidor
+  Copiar arquivos do servidor/cliente => scp nome-arquivo nome-usuario-cliente@ip-cliente:/home/nome-usuario-cliente  OBS: se for copiar diretorio incluir parâmetro "-r" depois do comando "scp"
+
+
+
+5- REDES:
+
+  Descobrir ip da máquina local => 'ip a', 'ifconfig' ou 'ipaddr'
+  Testar conexão com outra máquina na rede => ping ip-maquina
+  Descobrir ip externo da máquina => curl ifconfig.me/all
+  Descobrir endereços e ip e MAC de todas as maquinas conectadas na rede:
+   => sudo apt update
+   => sudo apt upgrade
+   => sudo apt install arp-scan
+   => sudo arp-scan --localnet 
+
+  Configurar um ip estático => acessar o arquivo de configuração /etc/network/interfaces e editar com as informações abaixo:
+
+  allow-hotplug enp0s3 (mude "enp0s3" para o nome correto da sua interface de rede)
+  iface enp0s3 inet static
+  address 192.168.1.100 (endereço ip escolhido) 
+  broadcast 192.168.1.255
+  netmask 255.255.255.0
+  gateway 192.168.1.1 (endereço ip do seu roteador)
+  dns-nameservers 8.8.8.8 8.8.4.4 (Pode ser o ip do seu gateway ou qualquer outro servidor de dns)
+
+  OBS: Comente com "#" nas linhas abaixo, pois isso desabilitará o dhcp e deixará apenas o ip estático configurado anteriormente.
+
+  # allow-hotplug enp0s3
+  # iface enp0s3 inet dhcp
+
+  Configurar um ip de servidor dns => Acessar o arquivo de configuração /etc/resolv.conf e editar incluindo as informações abaixo:
+
+  nameserver 8.8.8.8
+  nameserver 8.8.4.4
+
+  OBS: estes dados de servidores de dominio tem que ser os mesmos que foram configurados no /etc/network/interfaces anteriormente
+
+
+6- INSTALAR APLICATIVOS:
+
+  Instalar navegador em modo texto => apt install links2
+  OBS: para utilizar o navegador no terminal é necessário instalar o pacote do software usando o comando acima de depois executar o comando "links2 -g www.sitedesejado.com.br" com uma ressalva o parâmetro "g" utilizado no comando indica que o software será aberto com recursos gráficos minimos se o parâmetro não for utilizado o aplicativo funcionará sem problema algum, porém apenas no terminal em modo texto sem nenhuma aceleração gráfica.
+ 
+7- MUDAR HOME OUTRA PARTIÇÃO:
+  
+  Descobrir o id da partição a ser utilizada na montagem =>executar blkid como root
+  Editar arquivo de configuração => vim /etc/fstab 
+  Digitar a seguinte linha: UUID=numero-id-partição /home    ext4  nodev,nosuid      0  2
+  remover o diretorio /home que já existe para evitar duplicidade e naturalmente um erro no sistema, se houver arquivos para serem copiados, copiar antes de configurar o fstab e montar a nova home na partição para não perder arquivos importantes.
+  Montar /Home na nova partição => mount -a
+
+8- PESQUISAR ARQUIVOS E DIRETORIOS:
+
+  Encontrar nome exato de arquivos e diretórios => ls -R | grep nome-item
+  Encontrar local exato de arquivos e diretorios com os nomes encontrados anteriormente com o ls e grep => find /local-pesquisar -iname "*palavra-pesquisar*"
+  pesquisar palavra em arquivos => cat arquivo.txt | grep palavra-pesquisar
+
+9- EXCLUIR SENHA CHAVEIRO DEBIAN E SISTEMAS BASEADOS NELE:
+
+  Instalar pacote para excluir bloqueio por chaveiro do sistema Debian => apt install seahorse
+
+  Nota: depois de instalar o pacote basta abrir o aplicativo e clicar na opção login com o botão esquerdo e escolher a opção excluir senha, depois é só avançar e finalizar o processo que o chaveiro não mais bloqueará o acesso aos aplicativos do sistema sensíveis a segurança.
+
+10- MANIPULAR ARQUIVOS E DIRETÓRIOS:
+  
+  Criar diretorio dentro de outro diretorio => mkdir -p ./teste01/teste02
+  Abrir gestor de arquivos nautilus => nautilus .&
+  Concatenar arquivos => cat arquivo01 arquivo02 >> arquivoCONCATENADO
+  Exibir conteúdo de arquivo com número de linhas => cat -n arquivo.txt
+  Exibir arquivos e diretórios em uma estrutura de árvore => tree nome-direorio
+  Criar links simbólicos => ln -s /caminho-arquivo/arquivo.txt nome-link-simbolico
+  Exibir o tipo de arquivo => file nome-arquivo
+
+11- MANIPULAR  ARQUIVOS DE LOG:
+
+  Gerar arquivo de log como saída de comando => comando-desejado | tee nome-arquivo-log  => EXEMPLO: apt install lynx | tee /var/log/inst-lynx.log
+  Gerar informações adicionais em arquivos de log já existentes => comando-desejado | tee -a nome-arquivo.log  => EXEMPLO: lynx | tee -a /var/log/inst-lynx.log  
+  
+
+0- AUTOR:
+
+Antonio Marcos de Paula Caetano
+
+0- NOTAS:
+
+Após algum tempo utilizando o sistema linux e resolvendo alguns problemas que surgiram em meio a esta experiência o autor resolveu escrever este documento para fins de consulta pessoal e resolução de forma integral e mais rápidamente dos mesmos problemas relatados nesta documentação.
+
+                                                                     
+0- HISTÓRICO:
+
+23 de Julho de 2021 - Antonio Caetano iniciou o desenvolvimento deste documento.
+
+Última atualização: 05 de maio de 2024.
+
+0- LICENÇA:
+
+Gnu/Gpl

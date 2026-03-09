@@ -1,0 +1,72 @@
+#--------------------------------- MUDAR O DIRETORIO /HOME PARA PARTIÇÃO SEPARADA E CRIPTOGRAFADA -------------------------------#
+
+#1 PASSO: Abrir o gparted e redimensionar/criar a partição desejada em ext4 (se o disco estiver sendo usado acessar pelo live system)
+
+#2 PASSO: Criptografar partição com o cryptsetup
+
+=> sudo cryptsetup luksFormat /dev/<nome_partição>
+=> OBS: Não esquecer de digitar "YES" maiúsculo e depois Configurar a passphrase
+ 
+#3 PASSO: Abrir e mapear a partição criptografada
+
+=> sudo cryptsetup luksOpen /dev/<id_partição> home
+=> O nome a ser mapeado deve ser "home"
+
+#4 PASSO: Criar um novo file system
+
+=> sudo mkfs.ext4 /dev/mapper/home
+=> o "ext4" pode ser o file system desejado como xfs, ext2, ntfs etc.
+
+#5 PASSO: Criar ponto de montagem e montar partição criptografada
+
+=> sudo mkdir /media/home
+=> sudo mount /dev/mapper/home /media/home
+
+#6 sincronizar diretorio "/home" antigo para "/home" montado, preservando todas as permissões, arquivos ocultos e configurações.
+
+=> sudo rsync -aAXHvS --info=progress2 /home/. /media/home/.
+
+#7 PASSO: Acessar o diretório raiz "/", Renomear o diretorio "/home" antigo e criar diretorio "/home" definitivo
+
+=> sudo mv home home_bkp
+=> sudo mkdir home
+=> OBS: Por segurança vamos manter o "home_bkp", pois se tudo der errado poderemos desfazer o procedimento sem maiores prejuizos.
+
+#8 PASSO: Configurar montagem do novo "/home" ao inicializar o sistema editando os arquivos: crypttab e fstab
+
+=> sudo vim /etc/crypttab (Incluir linha a seguir: home /dev/<id_partição> none luks)
+
+=> sudo vim /etc/fstab (Incluir linha a seguir: /dev/mapper/home /home ext4 defaults 0 2)
+
+#9 PASSO: Montar as partições configuradas no fstab e crypttab e Reiniciar o daemon de serviços
+=> sudo mount -a
+=> sudo systemctl daemon-reload
+
+#9 PASSO: Reiniciar o sistema, atualizar o mesmo e testar alguns aplicativos instalados bem como simular cópias de arquivos para o "/home" novo e verificar se tudo está funcionando como deveria e se não ocorrer nenhum erro, remover o diretorio "home_bkp"
+
+=> sudo systemctl reboot
+=> sudo rm -rf /home_bkp 
+
+
+
+1- AUTOR:
+
+Antonio Marcos de Paula Caetano
+
+2- NOTAS:
+
+Após algum tempo utilizando o sistema linux e resolvendo alguns problemas que surgiram em meio a esta experiência o autor resolveu escrever este documento para fins de consulta pessoal e resolução de forma integral e mais rápidamente dos mesmos problemas relatados nesta documentação.
+
+                                                                     
+3- HISTÓRICO:
+
+02 de junho de 2024 - Antonio Caetano iniciou o desenvolvimento deste documento.
+
+Última atualização: 02 de junho de 2024.
+
+4- LICENÇA:
+
+Gnu/Gpl
+
+
+

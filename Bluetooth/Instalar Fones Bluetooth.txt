@@ -3,7 +3,7 @@
 
 1. sudo apt update
 
-2. sudo apt install pavucontrol
+2. sudo apt install bluetooth bluez blueman pulseaudio-module-bluetooth pavucontrol
 
 3. sudo apt install libspa-0.2-bluetooth
 
